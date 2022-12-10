@@ -1,25 +1,62 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Dashboard from '@/components/Layouts/DashboardLayout.vue'
+import store from '../store'
+
+import NotFound from '../views/NotFound/featureNotFound.vue'
+
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: '/app/',
+    name: 'Dashboard',
+    component: Dashboard,
+    children:[
+      {
+        path:'home',
+        name:'Home',
+        component:() => import('../views/Home')
+      },
+      {
+        path:'users',
+        name:'Users',
+        component:() => import('../views/Users')
+      },
+      {
+        path:'environments',
+        name:'Environments',
+        component:() => import('../views/Environments')
+      },
+      {
+        path:'/:pathMatch(.*)*',
+        component:NotFound
+       }
+    ]
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/login',
+    name: 'Login',
+  
+    component: () => import(/* webpackChunkName: "login" */ '../views/Auth/Login.vue')
+  },
+  {
+    path:'/:pathMatch(.*)*',
+    component:NotFound
+   }
+ 
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = store.getters['Login/getAccessToken']
+  if (to.name !== 'Login' && !isLoggedIn) {
+    next({ name: 'Login' });
+  } else {
+    next();
+  }
+});
 
 export default router
