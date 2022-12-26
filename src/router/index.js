@@ -22,6 +22,11 @@ const routes = [
         component:() => import('../views/Users')
       },
       {
+        path:'add-user',
+        name:'Add User',
+        component:() => import('../views/Users/AddUser')
+      },
+      {
         path:'environments',
         name:'Environments',
         component:() => import('../views/Environments')

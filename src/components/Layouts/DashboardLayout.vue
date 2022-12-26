@@ -35,7 +35,9 @@ import Sidebar from "@/components/Layouts/Sidebar";
     </v-navigation-drawer>
 
     <v-main>
-      <router-view />
+      <v-card height="calc(100vh - 60px)">
+        <router-view />
+      </v-card>
     </v-main>
   </v-layout>
 </template>

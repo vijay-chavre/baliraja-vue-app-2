@@ -10,3 +10,15 @@ export const getAllUsers = async () => {
     throw new Error('Could not find Users')
   }
 }
+
+export const addUsers = async (formData) => {
+  try {
+    
+    const res = await axios.post(url, {
+      ...formData
+    })
+    return res
+  } catch (error) {
+    throw new Error('Could not find Users')
+  }
+}
